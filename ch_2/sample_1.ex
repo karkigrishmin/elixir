@@ -178,3 +178,73 @@ defmodule ShortCircuitOperatorExample do
     true && false
   end
 end
+
+# Tuples
+# appropriate for grouping a small, fixed number of elements together
+defmodule TupleExample do
+  def example_1 do
+    person = {"Harry", 20}
+    # extracting an element of tuple
+    elem(person, 1)
+  end
+
+  def example_2 do
+    student = {"Hari", 19}
+    # modify an element of tuple
+    # put_elem function doesn't modify the tuple, it returns the
+    # new version of tuple, keeping the old one unchanged
+    put_elem(student, 1, 22)
+  end
+end
+
+# Lists
+defmodule ListExample do
+  def example_1 do
+    prime_numbers = [2, 3, 5, 7]
+    # returns length of the list
+    length(prime_numbers)
+
+    # access an element of the list
+    Enum.at(prime_numbers, 1)
+
+    # check if 2 is available in the list or not
+    2 in prime_numbers
+
+    # modify an element of the specified position in the list
+    # returns new modified list
+    List.replace_at(prime_numbers, 0, 1)
+
+    # insert an element at specified position(list, index, value)
+    List.insert_at(prime_numbers, 0, 1)
+    List.insert_at(prime_numbers, 2, 4)
+
+    # to insert an element at the end, we specify negative value for the position
+    List.insert_at(prime_numbers, -1, 9)
+    List.insert_at(prime_numbers, -2, 6)
+
+    # ++ operator is used to concatenate two lists
+    [1, 2, 3] ++ [4, 5]
+  end
+
+  def recursive_nature_of_list do
+    # list can be represented by a pair(head, tail)
+    # head is the first element of the list
+    # tail is the pair(head, tail) of remaining elements of the list
+    # special syntax to support recursive list definition is [head | tail]
+    # head can be of any type
+    # tail is itself a list
+    # some examples
+    [1 | []]
+    [1]
+    [1 | [2 | []]]
+    [1 | [2]]
+    [1 | [2, 3, 4]]
+    # this is the canonical recursive definition of a list
+    [1 | [2 | [3 | [4 | []]]]]
+
+    # returns head of the list i.e 1
+    hd([1, 2, 3, 4])
+    # returns tail of the list i.e [2, 3, 4]
+    tl([1, 2, 3, 4])
+  end
+end
