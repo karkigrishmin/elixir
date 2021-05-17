@@ -248,3 +248,76 @@ defmodule ListExample do
     tl([1, 2, 3, 4])
   end
 end
+
+# Immutability
+# data in elixir are immutable
+
+# Maps
+# a map is a key/value store
+defmodule MapExample do
+  def example_1 do
+    # an empty map can be created with %{}
+    empty_map = %{}
+    empty_map
+
+    # a map with some values
+    squares = %{1 => 1, 2 => 4, 3 => 9}
+    squares
+
+    # we can also create a map by passing
+    # enumerable which contains tuples of size two
+    Map.new([{1, 1}, {2, 4}, {3, 9}])
+
+    # to fetch a value at the given key
+    squares[2]
+    # returns nil because no value is associated with the given key i.e 4
+    squares[4]
+
+    # this works same as the above code but only the difference is
+    # in this function we can also specify default value and
+    # it is returned when the key is not found in a map
+    Map.get(squares, 2)
+    # returns default value i.e :not_found as key 4 is missing
+    # but that returned default value is little confusing to distinguish that
+    # either it is the value that is associated with given key
+    # or it is the default value
+    Map.get(squares, 4, :not_found)
+
+    # it returns {:ok, value} if the key is found
+    Map.fetch(squares, 2)
+    # it returns :error as the key is not found in a map
+    # helps to easily distinguish both the cases like
+    # if the key we're searching is present or not
+    Map.fetch(squares, 4)
+
+    # it only returns value if the key is in the map
+    # otherwise throws an exception
+    Map.fetch!(squares, 2)
+    # it throws an exception
+    # Map.fetch!(squares, 4)
+
+    # storing new element to the map
+    new_squares = Map.put(squares, 4, 16)
+    # fetching value at the given key
+    new_squares[4]
+  end
+
+  def structured_data do
+    # creating a map that represents a single person
+    grish = %{:name => 'Grish', :age => 20, :studies_at => 'NCIT'}
+    grish
+
+    # in the above code keys are atom so we can write this way too
+    grish = %{name: 'Grish', age: 20, studies_at: 'NCIT'}
+    grish
+
+    # accessing value of the given key i.e :name
+    grish[:name]
+    # with the atom key we can use the below syntax as well to fetch the value
+    # and if the key is absent then we'll get an error
+    grish.name
+
+    grishmin = %{grish | name: 'Grishmin'}
+    grish
+  end
+end
