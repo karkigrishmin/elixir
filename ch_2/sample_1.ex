@@ -321,3 +321,59 @@ defmodule MapExample do
     grish
   end
 end
+
+# Binaries
+# a binary is a chunk of bytes
+defmodule BinariesExample do
+  def example_1 do
+    # below code creates 3-byte binary
+    <<1, 2, 3>>
+    <<256>>
+    <<257>>
+
+    # we can also concatenate two binaries with <> operator
+    <<1, 2, 3>> <> <<4, 5>>
+  end
+end
+
+# Strings
+# Elixir don't have a dedicated string type
+# instead, strings are represented by using either a binary or a list type
+defmodule StringsExample do
+  def binary_string_example do
+    # we can use strings by specifying them with the double-quotes syntax
+    name = "Grishmin"
+    name
+
+    # Elixir provides support for embedded string expressions
+    # we use #{} to place an Elixir expression in a string constant
+    "sum of 2 and 3 is #{2 + 3}"
+
+    # Elixir provides another syntax for declaring strings, so-called sigils
+    # in this approach we enclose string inside ~s()
+    ~s(This is also a string)
+    # sigils is useful if we want to add quotes in our string
+    ~s("Practice makes man perfect." -unknown)
+
+    # we can concatenate strings with <> operator as they are binaries
+    "Hello" <> " " <> "world"
+  end
+
+  # we can also represent strings in lists type
+  def character_lists_example do
+    # representing strings using single-quote syntax
+    # this creates a character lists, where each elements in the list are integers
+    # and each represents a single character
+    'Harry Potter'
+
+    # as mentioned in the above comment, this list of integers returns the string
+    # 'ABC'
+    [65, 66, 67]
+
+    # we can also perform string interpolation and character list sigils same as
+    # we have done above in binary strings
+
+    # in general we should prefer binary strings over character lists
+    # as most of the operations from string module won't work with character lists
+  end
+end
