@@ -377,3 +377,94 @@ defmodule StringsExample do
     # as most of the operations from string module won't work with character lists
   end
 end
+
+# First-class functions
+defmodule AnonymousFunctionExample do
+  def example_1 do
+    # here function isn't bound to a global name, it's also called an anonymous
+    # function or a lambda
+    # no need of paranthesis in a argument list
+    square = fn x ->
+      x * x
+    end
+
+    square.(2)
+
+    # functions can be passed as arguments to other functions
+    # print_elements = fn x -> IO.puts(x) end
+
+    # Enum.each(
+    #   [1, 2, 3],
+    #   print_elements
+    # )
+
+    # we can directly pass lambda as arguments
+    Enum.each(
+      [4, 5, 6],
+      fn x -> IO.puts(x) end
+    )
+
+    # use of & operator also known as capture operator
+    # with the use of & operator, it shorten the lambda definition
+    Enum.each(
+      [7, 8, 9],
+      &IO.puts/1
+    )
+
+    # use of capture operator(&)
+    lambda = fn x, y, z -> x + y * z end
+
+    # we can write the above function as
+    # it returns 7 as (1 + 2 * 3 = 7)
+    lambda = &(&1 + &2 * &3)
+    lambda.(1, 2, 3)
+  end
+
+  def closures_example do
+    # a lambda can reference any variable from the outside scope
+    outside_var = 5
+
+    my_lambda = fn -> IO.puts(outside_var) end
+
+    # rebinding a variable doesn't affect the previously defined lambda
+    outside_var = 6
+    # returns 5
+    my_lambda.()
+  end
+end
+
+# Higher-level types
+defmodule HigherLevelTypes do
+  # range
+  def range_example do
+    range = 1..2
+    # using in operator, we can check whether any number falls in that range or not
+    2 in range
+
+    # ranges are enumerable, so we can use the functions from Enum module
+    Enum.each(
+      range,
+      &IO.puts/1
+    )
+  end
+
+  # Keyword lists
+  def keyword_list_example do
+    # it contains two-element tuple
+    # first element of each tuple must be an atom
+    # second element can be of any type
+    days = [{:monday, 1}, {:tuesday, 2}, {:wednesday, 4}]
+
+    # elixir allows this syntax too for defining a keyword list
+    days = [monday: 1, tuesday: 2, wednesday: 4]
+
+    Keyword.get(days, :monday)
+    Keyword.get(days, :saturday)
+
+    # just as maps we can also use [] operator to fetch a value
+    days[:tuesday]
+
+    # elixir allows us to omit the square brackets if the last argument is a keyword list
+    IO.inspect([1, 2, 3], width: 1, limit: 1)
+  end
+end
