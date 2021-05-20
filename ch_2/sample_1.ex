@@ -468,3 +468,77 @@ defmodule HigherLevelTypes do
     IO.inspect([1, 2, 3], width: 1, limit: 1)
   end
 end
+
+# MapSet
+defmodule MapSetExample do
+  def example_1 do
+    # creates a mapset instance
+    days = MapSet.new([:sunday, :monday, :tuesday, :wednesday])
+    days
+
+    # checks the presence of an element
+    # returns true
+    MapSet.member?(days, :sunday)
+    # returns false
+    MapSet.member?(days, :noday)
+
+    # puts a new elements to the MapSet
+    days = MapSet.put(days, :thursday)
+
+    # as MapSet is also an enumerable, we can pass it to functions from the Enum module
+    Enum.each(
+      days,
+      &IO.puts/1
+    )
+  end
+end
+
+# Times and Dates
+defmodule DateTimeExample do
+  def example_1 do
+    # creating date with the ~D sigil
+    date = ~D[2021-05-20]
+    date.year
+    date.month
+
+    # creating time with the ~T sigil
+    time = ~T[14:00:10]
+    time.hour
+
+    # creating datetime using NaiveDateTime module
+    naive_datetime = ~N[2021-05-20 14:00:10.0002]
+    naive_datetime.year
+  end
+end
+
+# Operators
+defmodule OperatorsExample do
+  def example_1 do
+    # arithmetic operators
+    3 + 2
+    # returns float value
+    4 / 2
+  end
+
+  def example_2 do
+    # comparison operators
+    # weak equality(==)
+    3 == 3.0
+    # strict equality(===)
+    3 === 3.0
+  end
+
+  def example_3 do
+    # logical operators
+    true and false
+    true or false
+    not true
+
+    # shortcircuit operators
+    # returns second expression if the first expression is truthy else
+    # returns first expression
+    3 > 2 && "3 is greater"
+    # returns first expression which is truthy otherwise returns last expression
+    3 > 2 || 2 > 1 || 2 < 1
+  end
+end
