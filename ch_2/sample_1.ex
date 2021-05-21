@@ -542,3 +542,19 @@ defmodule OperatorsExample do
     3 > 2 || 2 > 1 || 2 < 1
   end
 end
+
+# Macros
+# here defmodule, def are macros
+# macros are called at compile time, transforms and produces alternative code
+defmodule MacroExample do
+  def macro_function do
+    # block1
+  end
+
+  # unless is also macro and in the compile time this code is transformed into if..else
+  unless some_expression do
+    # block1
+  else
+    # block2
+  end
+end
