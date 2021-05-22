@@ -558,3 +558,47 @@ defmodule MacroExample do
     # block2
   end
 end
+
+# ---Understanding the runtime---
+# Elixir runtime is a BEAM instance
+# --- Modules and functions in the runtime--
+# when we start the runtime, an OS process for the BEAM instance starts,
+# and everything runs inside that process.
+# Once the system is started, we run some code by calling functions from modules
+# and the VM keeps track of all modules loaded in memory.
+# When a function is called from a module,
+# BEAM checks whether the module is loaded
+# If it is, the code of the corresponding function is executed
+# Otherwise, the VM tries to find the compiled module file on the disk
+# and the load it and execute the function
+# each compiled moduled resides in a separate file with the .beam extension
+# and the file name is same as the module name
+
+# ----Module names and atoms----
+# module definition example
+defmodule Geometry do
+  # .....
+end
+
+# here Geometry is an alias and we know aliases are also atoms.
+# so Geometry corresponds to :"Elixir.Geometry"
+
+# Dynamically calling functions
+defmodule DyanmicFunctionCallExample do
+  def example_1 do
+    # this Kernel.apply/3 function receives three arguments:
+    # the module atom,
+    # the function atom and,
+    # the list of arguments
+    # this function can be useful when we need to make a runtime decision about
+    # which function to call.
+    apply(IO, :puts, ["Dynamic function call"])
+  end
+end
+
+# -----Starting the runtime-----
+# there are multiple ways of starting BEAM-
+# iex
+# elixir
+# and the mix tool
+# whenever we need to build a production-ready system, mix is the best option
