@@ -136,4 +136,80 @@ defmodule MatchOperatorExample do
     %{age: age} = %{name: "Harry", age: 20}
     age
   end
+
+  def matching_bitstrings_and_binaries do
+    # matching binary
+    binary = <<1, 2, 3>>
+    <<b1, b2, b3>> = binary
+    b1
+    b2
+    b3
+
+    # extracting first byte into one variable and rest of the binary into another
+    # rest::binary states that we expect an arbitrary-sized binary
+    <<b1, rest::binary>> = binary
+    b1
+    rest
+  end
+
+  def matching_binary_strings do
+    # strings are binaries in elixir
+    # so we can use binary matches to extract individual bits and bytes from a string
+    <<b1, b2, b3>> = "ABC"
+    b1
+    b2
+    b3
+
+    # a more useful pattern is to match the beginning of the string
+    command = "ping www.ex.com"
+    # in the pattern we write "ping" <> url = command
+    # we expect that command variable is a binary string
+    # staring with "ping "
+    # thus it matches and the rest of the string is bound to url
+    "ping " <> url = command
+    url
+  end
+
+  def compound_matches do
+    # patterns can be arbitrarily nested
+    # here we are matching with the list of three elements
+    # and we are only extracting the name of the second person, if list gets matched
+    [_, {name, _}, _] = [{"Harry", 20}, {"John", 21}, {"Bob", 19}]
+    name
+
+    # match chaining
+    # general form of match expression is
+    # pattern = expression
+    # match expressions can be chained
+    # example
+    # here firstly, the expression 1 + 2 is evaluated
+    # and the result 3 is matched against the pattern b
+    # and the result of inner match is matched against the pattern a
+    # so both a and b have the value 3
+    a = b = 1 + 2
+    a
+    b
+
+    # another example
+    # this function returns {{2020, 04, 20}, {hr, min, sec}}
+    date_time = {_, {hour, _, _}} = :calendar.local_time()
+    date_time
+    hour
+
+    # we can even swap the ordering
+    # it still gives the same result
+    {_, {hour, _, _}} = date_time = :calendar.local_time()
+    date_time
+    hour
+  end
+end
+
+defmodule MatchingWithFunctions do
+  # in case of function, arguments in the function definiton
+  # are patterns and the expression i.e provided during the function call
+  # is the term
+  # here patterns assume that function is called with two elements tuple
+  def rectangle({a, b}) do
+    a * b
+  end
 end
