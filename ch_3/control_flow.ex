@@ -212,4 +212,50 @@ defmodule MatchingWithFunctions do
   def rectangle({a, b}) do
     a * b
   end
+
+  defmodule MultiClauseFunctions do
+    # elixir allows us to overload a function
+    # by specifying multiple clauses.
+    # A clause is a function definition specified by the def construct
+    # if we provide multiple definitions of the same function with the same arity
+    # its said that the function has multiple clauses
+    # here we have three clauses of same function i.e area
+    # which calculates area of rectangle, circle and square
+    # here first clause expects argument like this
+    # {:rectangle, 2, 2}
+    def area({:rectangle, a, b}) do
+      a * b
+    end
+
+    # second clause can be called with this argument
+    # {:square, 2}
+    def area({:square, a}) do
+      a * a
+    end
+
+    # third clause can be called with this argument
+    # {:circle, 3}
+    def area({:circle, r}) do
+      r * r * 3.14
+    end
+
+    # fourth clause
+    # this clause handles any invalid input
+    # returns two element tuple to indicate that something has gone wrong
+    def area(unknown) do
+      {:error, {:unknown_shape, unknown}}
+    end
+  end
+
+  def using_capture_operator do
+    # using capture operator(&) we can create the function value
+    # here we capture all of the clauses of area
+    fun = &MultiClauseFunctions.area/1
+    fun.({:square, 2})
+    fun.({:circle, 3})
+    # this calls fourth clause
+    # as the argument of other clause didnt matched
+    # returns this {:error, {:unknown_shape, {:triangle, 5}}}
+    fun.({:triangle, 5})
+  end
 end
