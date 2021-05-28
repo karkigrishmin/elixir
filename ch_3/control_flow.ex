@@ -245,6 +245,99 @@ defmodule MatchingWithFunctions do
     def area(unknown) do
       {:error, {:unknown_shape, unknown}}
     end
+
+    # Guards
+    # we want to write a function that accepts a number and
+    # returns an atom :negative, :zero, or :positive,
+    # depending on the numbers value
+    # this isn't possible with simple pattern matching.
+    # Elixir gives us a solution for this in the form of guards
+    # Guards are an extension of the basic pattern-matching mechanism.
+    # they allow us to state additional broader expectations
+    # that must be satisfied for the entire pattern to match.
+    # A guard can be specified by providing the when clause
+    # after the argument list
+    defmodule TestNum do
+      # first clause will be called
+      # only if we pass a negative number.
+      # extending guard to test whether the argument is a number
+      # now none of the clause gets called with non-number type argument.
+      def test(x) when is_number(x) and x < 0 do
+        :negative
+      end
+
+      def test(0), do: :zero
+
+      # it is called only
+      # if we pass a positive number.
+      def test(x) when is_number(x) and x > 0 do
+        :positive
+      end
+
+      def call_above_functions do
+        # returns :negative
+        test(-1)
+        # returns :zero
+        test(0)
+        # returns :positive
+        test(1)
+        # it also returns :positive
+        # in elixir we can compare elixir terms with operators > and <,
+        # even if they are not of the same type.
+        # In this case, the type ordering determines the result:
+        # number < atom < reference < fun < port < pid < tuple < map < list < bitstring
+        # A number is smaller than any other type,
+        # so test/1 always returns :positive
+        # as we have guard to check whether the argument is number or not
+        # thats why an error will occur if we call with non-number.
+        # test(:not_a_number)
+      end
+    end
+
+    # in some cases, function used in a guard
+    # may cause an error to be raised
+    defmodule ListHelper do
+      def smallest(list) when length(list) > 0 do
+        Enum.min(list)
+      end
+
+      def smallest(_), do: {:error, :invalid_argument}
+
+      def calling_above_functions do
+        # returns 3
+        smallest([10, 8, 3])
+        # returns {:error, :invalid_argument}
+        smallest([])
+      end
+    end
+  end
+
+  # Multiclause lambdas
+  # Anonymous functions(lambdas) may also consist of multiple clauses
+  defmodule MultiClauseLambdas do
+    # the general lambda syntax has the following shape:
+    # fn
+    #   pattern1, pattern2 ->
+    #     ....
+    #   pattern3, pattern4 ->
+    #     ...
+    #   end
+    def test_num do
+      test_num = fn
+        x when is_number(x) and x < 0 ->
+          :negative
+
+        0 ->
+          :zero
+
+        x when is_number(x) and x > 0 ->
+          :positive
+      end
+
+      test_num.(3)
+      test_num.(0)
+      test_num.(-1)
+    end
   end
 
   def using_capture_operator do
