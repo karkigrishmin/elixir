@@ -352,3 +352,73 @@ defmodule MatchingWithFunctions do
     fun.({:triangle, 5})
   end
 end
+
+# Conditionals
+# elixir provides some standard ways of conditional branching,
+# with constructs such as if and case.
+# multiclause functions can be used for this purpose as well.
+defmodule Conditionals do
+  defmodule BranchingWithMulticlauseFunctions do
+    defmodule TestNum do
+      def test(x) when x > 0 do
+        :positive
+      end
+
+      def test(0) do
+        :zero
+      end
+
+      def test(x) do
+        :negative
+      end
+
+      def call_above_functions do
+        test(2)
+        test(0)
+      end
+    end
+
+    # following example is used to whether a given list is empty
+    defmodule TestList do
+      # this clause matches an empty list
+      def empty?([]), do: true
+      # this clause matches a non-empty list in the form of [head|tail]
+      def empty?([_ | _]), do: false
+
+      def call_above_functions do
+        # returns true
+        empty?([])
+        # returns false
+        empty?([1, 2, 3])
+      end
+    end
+
+    # by relying on pattern matching
+    # we can implement polymorphic functions
+    # that do different things depending on the input type
+    # the following example implements a function that doubles a variable.
+    # the function behaves differently depending on
+    # whether its called with a number or with a binary(string)
+    defmodule Polymorphic do
+      def double(x) when is_number(x), do: x * 2
+      def double(x) when is_binary(x), do: x <> x
+
+      def call_above_functions do
+        # returns 4
+        double(2)
+        # returns "elixirelixir"
+        double("elixir")
+      end
+    end
+
+    defmodule ListHelper do
+      def sum([]), do: 0
+      def sum([head | tail]), do: head + sum(tail)
+
+      def call_above_functions do
+        # returns 6
+        sum([1, 2, 3])
+      end
+    end
+  end
+end
