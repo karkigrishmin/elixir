@@ -421,4 +421,61 @@ defmodule Conditionals do
       end
     end
   end
+
+  # Classical Branching Constructs
+  defmodule ClassicalBranchingConstructs do
+    # to use a classical branching construct in the function
+    # macros if, unless, cond and case are provided
+
+    # syntax of if macro
+    # if condition do
+    #   ....
+    # else
+    #   ....
+    # end
+
+    # above syntax can also be condensed as below
+    # if condition, do: something, else: another_thing
+
+    # everything in elixir is an expression
+    # that has a return value
+    # if expression returns the result of the executed block
+    # if the condition isn't met and the else clause isn't specified
+    # the return value is the atom nil
+    def example do
+      if 3 < 2 do
+        "3 is less"
+      else
+        "3 is greater"
+      end
+
+      # returns nil
+      if 2 > 4 do
+        :first_block
+      end
+
+      # unless macro is also available
+      # which is equivalent of if(not...)
+      # returns :second
+      unless 3 > 2 do
+        :first_block
+      else
+        :second
+      end
+
+      # Cond
+      # it is equivalent to an if-else-if pattern
+      # it takes the list of expressions and
+      # executes the block of first expression that evaluates to a truthy value
+
+      # syntax
+      # cond do
+      #   expression_1 ->
+      #     ...
+      #   expression_2 ->
+      #     ...
+      #   ..
+      # end
+    end
+  end
 end
