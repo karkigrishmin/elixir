@@ -476,6 +476,47 @@ defmodule Conditionals do
       #     ...
       #   ..
       # end
+
+      # the result of cond is the result of the
+      # corresponding executed block
+      # if none of the conditions is satisfied, cond raises an error
+      cond do
+        4 > 2 ->
+          4
+
+        # equivalent of a default clause
+        true ->
+          2
+      end
+
+      # case
+      # syntax
+      # case expression do
+      #   pattern_1 ->
+      #     ...
+      #   pattern_2 ->
+      #     ...
+      # end
+
+      # the term pattern indicates that
+      # it deals with pattern matching.
+      # the provided expression is evaluated,
+      # and then the result is matched against the given clauses
+      # if no clause matches, an error is occured
+
+      # example
+      case 4 > 2 do
+        true ->
+          4
+
+        false ->
+          2
+
+        # we can also specify default clause by using the anonymous variable
+        # to match anything.
+        _ ->
+          "default"
+      end
     end
   end
 end
