@@ -519,4 +519,112 @@ defmodule Conditionals do
       end
     end
   end
+
+  # the with special form
+  # it is a branching construct
+  # it can be very useful when we need to chain a couple of expressions
+  # and return the error of the first expression that fails.
+  defmodule WithSpecialForm do
+    # example
+    # we have one input map:
+    # %{
+    #   "login" => "harry",
+    #   "email" => "some_email",
+    #   "password" => "password",
+    #   "other_field" => "some_value",
+    #   ..........
+    #   ..........
+    # }
+
+    # we have to normalize this map into a map
+    # that contains only the fields login, email and password
+    # we can return the following structure:
+    # %{login: "harry", email: "some_email", password: "password"}
+
+    # helper functions for extracting each field
+    defp extract_login(%{"login" => login}), do: {:ok, login}
+    defp extract_login(_), do: {:error, "login missing"}
+
+    defp extract_email(%{"email" => email}), do: {:ok, email}
+    defp extract_email(_), do: {:error, "email missing"}
+
+    defp extract_password(%{"password" => password}), do: {:ok, password}
+    defp extract_password(_), do: {:error, "password missing"}
+
+    # implementing extract_user function using case
+    def extract_user(user) do
+      case extract_login(user) do
+        {:error, reason} ->
+          {:error, reason}
+
+        {:ok, login} ->
+          case extract_email(user) do
+            {:error, reason} ->
+              {:error, reason}
+
+            {:ok, email} ->
+              case extract_password(user) do
+                {:error, reason} ->
+                  {:error, reason}
+
+                {:ok, password} ->
+                  %{login: login, email: email, password: password}
+              end
+          end
+      end
+    end
+
+    # above code is quite noisy
+    # here nested cases are used
+    # this is precisely where with can help us.
+    # with has the following shape:
+    # with pattern_1 <- expression_1,
+    #      pattern_2 <- expression_2 do
+    #   ....
+    # end
+
+    # from the above,
+    # the first expression is evaluated
+    # then the result is matched against the corresponding pattern
+    # if it gets matched, then we move to the next expression
+    # if all the expressions are successfully matched,
+    # then the result of with expression is returned from
+    # the last expression in the do block
+
+    # the benefit of with is that
+    # it returns the first term that fails to be matched
+    # against the corresponding pattern
+    # example
+    # returns {:error, "login missing"}
+    # with {:ok, login} <- {:error, "login missing"},
+    #      {:ok, email} <- {:ok, "email"} do
+    #   %{login: login, email: email}
+    # end
+
+    # with-based extract_user function
+    def extract_user_using_with(user) do
+      with {:ok, login} <- extract_login(user),
+           {:ok, email} <- extract_email(user),
+           {:ok, password} <- extract_password(user) do
+        %{login: login, email: email, password: password}
+      end
+    end
+
+    def user_input_map do
+      extract_user(%{
+        "login" => "harry",
+        "email" => "some_email",
+        "password" => "password",
+        "other_field" => "some_value"
+      })
+
+      # returns %{email: "some_email", login: "hari", password: "password"}
+      extract_user_using_with(%{
+        "login" => "hari",
+        "email" => "some_email",
+        "password" => "password",
+        "other_field" => "some_value"
+      })
+    end
+  end
 end
