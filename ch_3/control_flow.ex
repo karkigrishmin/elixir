@@ -628,3 +628,19 @@ defmodule Conditionals do
     end
   end
 end
+
+# Loops and iterations
+defmodule LoopsAndIterations do
+  defmodule IteratingWithRecursion do
+    # implementing a function that prints the first n natural numbers
+    # we have no loops, so we must rely on recursion
+    defmodule NaturalNums do
+      def print(1), do: IO.puts(1)
+
+      def print(n) do
+        print(n - 1)
+        IO.puts(n)
+      end
+    end
+  end
+end
