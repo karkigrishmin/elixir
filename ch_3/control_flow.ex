@@ -637,9 +637,32 @@ defmodule LoopsAndIterations do
     defmodule NaturalNums do
       def print(1), do: IO.puts(1)
 
-      def print(n) do
+      def print(n) when is_integer(n) do
         print(n - 1)
         IO.puts(n)
+      end
+
+      def print(n) do
+        "float value"
+      end
+
+      def calling_above_functions do
+        # returns 1, 2, 3
+        print(3)
+      end
+    end
+
+    # following code implements a function that sums all the elements in a given list
+    defmodule ListHelper do
+      def sum([]), do: 0
+
+      def sum([head | tail]) do
+        head + sum(tail)
+      end
+
+      def calling_above_functions do
+        # returns 6
+        sum([1, 2, 3])
       end
     end
   end
