@@ -666,4 +666,58 @@ defmodule LoopsAndIterations do
       end
     end
   end
+
+  # the last function call in the function is the tail call.
+  # Elixir treats tail calls in a specific manner
+  # by performing a tail-call optimization.
+
+  # tail calls are especially useful in recursive functions.
+  # A tail-recursive function is a function,
+  # that calls itself at the very end- can run virtually forever
+  # without consuming additional memory.
+  defmodule TailFunctionCalls do
+    # example in tail-recursive version
+    defmodule ListHelper do
+      def sum(list) do
+        do_sum(0, list)
+      end
+
+      # this clause is responsible for stopping the recursion.
+      defp do_sum(current_sum, []) do
+        current_sum
+      end
+
+      defp do_sum(current_sum, [head | tail]) do
+        new_sum = current_sum + head
+        # tail-recursive call
+        do_sum(new_sum, tail)
+      end
+
+      def calling_sum do
+        # returns 6
+        sum([1, 2, 3])
+      end
+    end
+
+    # Recognizing tail calls
+    # tail calls can take different shapes
+    # a tail call can also happen in a conditional expression
+    # def fun do
+    #   if something do
+    #     ...
+
+    #     another_fun(..)   -tail call
+    #   end
+    # end
+
+    # the call to another_fun is a tail call
+    # coz its a last thing the function does.
+
+    # following code isn't a tail call
+    # because  the call to another_fun isn't the last thing
+    # done in the fun function.
+    # def fun do
+    #   1 + another_fun()
+    # end
+  end
 end
