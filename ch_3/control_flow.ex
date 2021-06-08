@@ -719,6 +719,29 @@ defmodule LoopsAndIterations do
     # def fun do
     #   1 + another_fun()
     # end
-    ...
+  end
+
+  defmodule RecursionPractice do
+    # calculates the length of the list
+    def list_len([]), do: 0
+
+    def list_len([_ | tail]) do
+      1 + list_len(tail)
+    end
+
+    # returns the list of the given range
+    def range(from, to) when from > to do
+      []
+    end
+
+    def range(from, to) do
+      [from | range(from + 1, to)]
+    end
+
+    def calling_above_functions do
+      list_len([1, 2, 3])
+      # returns [1, 2, 3, 4, 5]
+      range(1, 5)
+    end
   end
 end
