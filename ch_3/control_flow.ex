@@ -721,6 +721,7 @@ defmodule LoopsAndIterations do
     # end
   end
 
+  # Non-tail recursive form
   defmodule RecursionPractice do
     # calculates the length of the list
     def list_len([]), do: 0
@@ -738,10 +739,24 @@ defmodule LoopsAndIterations do
       [from | range(from + 1, to)]
     end
 
+    # returns list that contains only positive numbers
+    # [1, 2,-3]
+    def positive([]), do: []
+
+    def positive([head | tail]) when head > 0 do
+      [head | positive(tail)]
+    end
+
+    def positive([_ | tail]) do
+      positive(tail)
+    end
+
     def calling_above_functions do
       list_len([1, 2, 3])
       # returns [1, 2, 3, 4, 5]
       range(1, 5)
+      # returns list containing only positive numbers
+      positive([-1, 2, -3])
     end
   end
 end
