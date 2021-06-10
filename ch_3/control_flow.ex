@@ -759,4 +759,35 @@ defmodule LoopsAndIterations do
       positive([-1, 2, -3])
     end
   end
+
+  # Higher-order functions
+  defmodule HigherOrderFunctions do
+    def enum_module_helpers do
+      # Enum.each/2 is used to iterate through the list
+      # and print all of its elements.
+      # it takes an enumerable(list) and a lambda.
+      # it iterates through the enumerable,
+      # and calls the lambda for each of its elements.
+      Enum.each(
+        [1, 2, 3],
+        fn x -> IO.puts(x) end
+      )
+
+      # most functions from the Enum module work on enumerables
+      # example of enumerables are lists, ranges, maps, and MapSet.
+
+      # Enum.map/2 is used to transform a list to another list.
+      # returns [2, 4, 6]
+      Enum.map(
+        [1, 2, 3],
+        fn x -> x * 2 end
+      )
+
+      # using capture operator(&) to shorten the lambda definition.
+      Enum.map(
+        [1, 2, 3],
+        &(&1 * 2)
+      )
+    end
+  end
 end
