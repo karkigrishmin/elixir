@@ -788,6 +788,15 @@ defmodule LoopsAndIterations do
         [1, 2, 3],
         &(&1 * 2)
       )
+
+      # Enum.filter/2 is used  to extract only some elements of the list,
+      # based on certain criteria.
+
+      # following code returns all odd numbers from a list
+      Enum.filter(
+        [1, 2, 3],
+        fn x -> rem(x, 2) == 1 end
+      )
     end
   end
 end
