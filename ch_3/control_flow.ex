@@ -797,6 +797,55 @@ defmodule LoopsAndIterations do
         [1, 2, 3],
         fn x -> rem(x, 2) == 1 end
       )
+
+      # using capture operator(&) to shorten the lambda definition.
+      Enum.filter(
+        [1, 2, 3, 4],
+        &(rem(&1, 2) == 0)
+      )
+
+      # Enum.reduce/3
+      # this function takes enumerable, initial accumulator value and lambda.
+      # folowing example calculates the sum of all elements of the list.
+      Enum.reduce(
+        [1, 2, 3],
+        0,
+        # lambda receives the element from the enumerable and
+        # the current accumulator value.
+        fn element, sum -> sum + element end
+      )
+    end
+
+    def extract_user(user) do
+      # # here we are iterating through the list of required fields
+      # # and take only those fields that aren't present in the map.
+      case Enum.filter(
+             ["login", "email", "password"],
+             &(not Map.has_key?(user, &1))
+           ) do
+        # all the fields are present in the map
+        [] ->
+          {:ok,
+           %{
+             login: user["login"],
+             email: user["email"],
+             password: user["password"]
+           }}
+
+        # # fields that aren't present in the Map
+        missing_fields ->
+          {:error, "missing fields: #{Enum.join(missing_fields, ", ")}"}
+          # Enum.join/2 takes enumerables and separator
+          # and returns string
+      end
+    end
+
+    def calling_extract_user do
+      extract_user(%{
+        "login" => "grish",
+        "email" => "some_email",
+        "password" => "some_password"
+      })
     end
   end
 end
