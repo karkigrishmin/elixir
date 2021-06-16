@@ -814,6 +814,12 @@ defmodule LoopsAndIterations do
         # the current accumulator value.
         fn element, sum -> sum + element end
       )
+
+      # many operators are functions and
+      # we can turn an operator into a lambda by calling &+/2, &*/2, and so on.
+      # so we can write the above sum example in a more compact form
+      # returns 10
+      Enum.reduce([1, 2, 3, 4], 0, &+/2)
     end
 
     def extract_user(user) do
