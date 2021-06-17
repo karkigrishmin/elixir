@@ -820,6 +820,22 @@ defmodule LoopsAndIterations do
       # so we can write the above sum example in a more compact form
       # returns 10
       Enum.reduce([1, 2, 3, 4], 0, &+/2)
+
+      # this is the another example of reduce
+      # which is used to sum all the numeric elements
+      # even there are other types of elements in the list.
+      Enum.reduce(
+        [1, 2, "not a number", :x, 3],
+        0,
+        # multiclause lambda
+        fn
+          element, sum when is_number(element) ->
+            sum + element
+
+          _, sum ->
+            sum
+        end
+      )
     end
 
     def extract_user(user) do
